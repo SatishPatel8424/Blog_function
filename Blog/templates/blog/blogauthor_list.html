@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <br>
+    <div class="alert alert-success" role="alert">
+        <h1 class="alert-heading" >All bloggers</h1>
+        <hr>
+        {% if BlogAuthor1 %}
+            <ul>
+
+                {% for author in BlogAuthor1 %}
+                    <li>
+                       <a href="">{{ author }}</a>
+                    </li>
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+           <p>There are no bloggers yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+

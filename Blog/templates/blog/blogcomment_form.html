@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <br>
+<div class="card">
+<p class="card-header alert alert-success">Post your comment for: <a href="{% url 'blog-detail' blog.pk %}">{{blog.name}}</a></p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <div style="margin-left: 200px">
+        <input  class=" btn btn-primary" type="submit" value="Submit" />
+    </div>
+</form>
+    </div>
+{% endblock %}
