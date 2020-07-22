@@ -32,7 +32,7 @@ class Blog(models.Model):
     name = models.CharField(max_length=500)
     author = models.ForeignKey(BlogAuthor, on_delete=models.SET_NULL, null=True)
     description = models.TextField(max_length=5000, help_text="Please Enter the blog description here.")
-    post_date = models.DateField(default=date.today)
+    post_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-post_date"]
@@ -65,4 +65,7 @@ class BlogComment(models.Model):
         else:
             titlestring = self.description
         return titlestring
+
+    def get_absolute_url(self):
+        return reverse('blog-detail', args=[str(self.blog.id)])
 

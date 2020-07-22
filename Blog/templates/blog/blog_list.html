@@ -3,14 +3,14 @@
 {% block content %}
     <br>
     <div class="alert alert-success" role="alert">
-        <h1 class="alert-heading" >All blogs</h1>
-        <hr>
-        {% if blog %}
+        <h3 class="alert-heading" >All blogs</h3>
+        <a href="{% url 'create-blog' %}" class="button"> Create Blog</a>
+        {% if blogs %}
             <ul>
 
-                {% for blog in blog %}
+                {% for blog in blogs %}
                     <li>
-                        <a href="{% url 'blog-detail' blog.pk %}">{{ blog.name }}</a> ({{blog.post_date}}) — <a href="">{{ blog.author }}</a>
+                        <a href="{% url 'blog-detail' blog.pk %}">{{ blog.name }}</a> ({{blog.post_date}}) — <a href="{% url 'blogs-by-author' blog.author.pk %}">{{ blog.author }}</a>
                     </li>
                 {% endfor %}
 
@@ -22,4 +22,3 @@
     </div>
 
 {% endblock %}
-

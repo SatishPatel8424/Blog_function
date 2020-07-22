@@ -6,11 +6,11 @@
     <h5 class="card-header alert alert-success">Blogger: {{blogger}}</h5>
     <div class="card-body">
         <h4>Bio</h4>
-        <p> {{blogger.bio}}</p>
-        {% if blog_list %}
+        <p> {{blog_author.bio}}</p>
+        {% if blogs %}
             <h3>Blogs list</h3>
             <ul>
-                {% for blog in blog_list %}
+                {% for blog in blogs %}
                     <li>
                         <a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a> ({{blog.post_date}})</a>
                     </li>

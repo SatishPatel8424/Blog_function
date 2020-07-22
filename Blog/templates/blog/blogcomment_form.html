@@ -3,7 +3,7 @@
 {% block content %}
     <br>
 <div class="card">
-<p class="card-header alert alert-success">Post your comment for: <a href="{% url 'blog-detail' blog.pk %}">{{blog.name}}</a></p>
+<p class="card-header alert alert-success">Post your comment for: <a href="{% url 'blog-detail' form.pk %}">{{form.name}}</a></p>
 
 <form action="" method="post">
     {% csrf_token %}

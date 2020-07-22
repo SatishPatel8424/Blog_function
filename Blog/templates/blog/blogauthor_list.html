@@ -10,7 +10,7 @@
 
                 {% for author in BlogAuthor1 %}
                     <li>
-                       <a href="">{{ author }}</a>
+                       <a href="{% url 'blogs-by-author' author.pk %}">{{ author }}</a>
                     </li>
                 {% endfor %}
 
