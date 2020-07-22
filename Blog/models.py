@@ -1,10 +1,9 @@
 from django.db import models
-
 from datetime import date
 from django.urls import reverse
-from django.contrib.auth.models import User #Blog author and commenter
+from django.contrib.auth.models import User
 
-# Blog Author model is here..
+
 class BlogAuthor(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
@@ -14,19 +13,12 @@ class BlogAuthor(models.Model):
         ordering = ["user", "bio"]
 
     def get_absolute_url(self):
-        """
-        Returns the url to access a particular blog-author instance.
-        """
         return reverse('blogs-by-author', args=[str(self.id)])
 
     def __str__(self):
-        """
-        String for representing the Model object.
-        """
         return self.user.username
 
 
-# Blog model is here..
 class Blog(models.Model):
 
     name = models.CharField(max_length=500)
@@ -38,15 +30,12 @@ class Blog(models.Model):
         ordering = ["-post_date"]
 
     def get_absolute_url(self):
-        """
-        Returns the url to access a particular blog instance.
-        """
         return reverse('blog-detail', args=[str(self.id)])
 
     def __str__(self):
         return self.name
 
-# Blog comment model is here..
+
 class BlogComment(models.Model):
 
     description = models.TextField(max_length=75, help_text="Please Enter the comment about blog here.")
