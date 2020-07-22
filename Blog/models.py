@@ -58,3 +58,5 @@ class BlogComment(models.Model):
     def get_absolute_url(self):
         return reverse('blog-detail', args=[str(self.blog.id)])
 
+
+
