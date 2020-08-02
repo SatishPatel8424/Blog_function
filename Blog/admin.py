@@ -7,7 +7,7 @@ from django.contrib import admin
 
 from .models import BlogAuthor, Blog, BlogComment
 
-admin.site.register(BlogAuthor)
+
 admin.site.register(BlogComment)
 
 class BlogCommentsInline(admin.TabularInline):
@@ -22,6 +22,7 @@ class BlogCommentsInline(admin.TabularInline):
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'author', 'post_date')
+    list_display = ('name', 'author', 'post_date', 'description')
     inlines = [BlogCommentsInline]
+
 

@@ -1,0 +1,86 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Jquery demo</title>
+  </head>
+  <body>
+    <h1>Jquery Demo</h1>
+    <hr>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h6> button click hide content</h6>
+             <p>This is a paragraph.</p>
+            <p>This is another paragraph.</p>
+            <button>Click me to hide paragraphs</button>
+        </div>
+    </div>
+  </div>
+    <br>
+    <hr>
+   <div class="container">
+    <div class="row">
+            <div class="col-md-12">
+                <h6> click to hide</h6>
+                <h1>If you click on me, I will disappear.</h1>
+                <h1>Click me away!</h1>
+                <h1>Click me too!</h1>
+            </div>
+   </div>
+    </div>
+    <br>
+    <hr>
+     <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h6> The mouseenter() method attaches an event handler function to an HTML element.</h6>
+                <h2 id="h2">If you click on me, I will disappear.</h2>
+
+            </div>
+        </div>
+     </div>
+     <br>
+    <hr>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h6> The mouseleave() method attaches an event handler function to an HTML element.</h6>
+            <h2 id="h3"> This is a paragraph.</h2>
+        </div>
+    </div>
+  </div>
+     <br>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h6> focus() and blur() methods</h6>
+                Name: <input type="text" name="fullname"><br>
+                Email: <input type="text" name="email">
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5> This is a paragraph.</h5>
+                <button id="showbutton"> show</button>
+                <button id="hidebutton"> hide</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquerytest.js' %}"></script>
+  </body>

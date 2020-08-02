@@ -19,6 +19,7 @@ class BlogAuthor(models.Model):
         return self.user.username
 
 
+
 class Blog(models.Model):
 
     name = models.CharField(max_length=500)

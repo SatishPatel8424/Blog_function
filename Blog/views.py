@@ -26,6 +26,7 @@ class BlogList(View):
                 'blogs' : blogs,
                 'page_request_var' : page_request_var,
                 'most_recent': most_recent,
+
         }
         return render(request, "blog/blog_list.html", context)
 
