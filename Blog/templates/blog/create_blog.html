@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <title>Add new blog</title>
 </head>
 <body>
-  <form action="" method="POST">
+  <form  id="CreateFormid" action="create_blog.html" method="POST">
       {% csrf_token %}
       {{ form.name.label }} : {{  form.name }}
       <br>
@@ -17,4 +18,34 @@
   </form>
 
 </body>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/jquerytest.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+   $("#CreateFormid").submit(function(e){
+	// prevent from normal form behaviour
+
+      	e.preventDefault();
+    	// serialize the form data
+
+      	var serializedData = $(this).serialize();
+      	$.ajax({
+      		type : 'POST',
+      		url :  "{% url 'blogs' %}",
+      		data : serializedData,
+
+      		success : function(response){
+			//reset the form after successful submit
+
+      			$("#CreateFormid")[0].reset();
+      		},
+      		error : function(response){
+      			console.log(response)
+      		}
+      	});
+   });
+});
+
+</script>
+
 </html>

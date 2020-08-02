@@ -2,37 +2,81 @@ $(document).ready(function () {
     $("button").click(function () {
         $("p").hide();
     });
-});
-$(document).ready(function(){
-  $("h1").click(function(){
+
+    // h1 tage is click to hide
+    $("h1").click(function(){
     $(this).hide();
   });
-});
-$(document).ready(function (){
-   $("#h2").mouseenter(function(){
+
+    // mouse entered time working
+    $("#h2").mouseenter(function(event){
         alert("You entered p1!");
+        event.preventDefault();
     });
-});
-$(document).ready(function (){
-    $("#h3").mouseleave(function (){
+
+    // mouse leave methods
+     $("#h3").mouseleave(function (event){
         alert("mouse is leave");
+        event.preventDefault();
     });
-});
-$(document).ready(function (){
-    $("input").focus(function (){
+
+     // input type to focus and blur
+     $("input").focus(function (){
         $(this).css("background-color", "yellow");
     });
     $("input").blur(function (){
         $(this).css("background-color", "green");
     });
-});
-$(document).ready(function (){
-    $("#hidebutton").click(function ()
+    // hide and show using button
+     $("#hidebutton").click(function ()
     {
-        $("h5").hide();
+        $("h5").hide(1000);
     });
     $("#showbutton").click(function ()
     {
-        $("h5").show();
+        $("h5").show(2000);
     });
+
+    //fadeIn example
+    $("#btnfade").click(function (){
+        $("#div1").fadeIn("slow");
+        $("#div2").fadeIn(2000);
+        $("#div3").fadeIn(5000);
+
+    });
+    //fadeout example
+     $("#buttonout").click(function(){
+        $("#div4").fadeOut();
+        $("#div5").fadeOut("slow");
+        $("#div6").fadeOut(3000);
+  });
+     // fade toggle example
+    $("#buttonToggle").click(function(){
+        $("#box1").fadeToggle();
+        $("#box2").fadeToggle("slow");
+        $("#box3").fadeToggle(3000);
+  });
+    $("#buttonTo").click(function(){
+        $("#box4").fadeTo("fast",0.15);
+        $("#box5").fadeTo("slow",0.5);
+        $("#box6").fadeTo(3000,0.8);
+  });
+
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

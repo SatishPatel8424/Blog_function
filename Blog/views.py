@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
@@ -65,16 +65,20 @@ class BlogListbyAuthor(View):
 class CreateBlogView(View):
 
     def get(self, request):
-        blog_form = CreateBlogForm()
-        return render(request, "blog/create_blog.html", context={"form" : blog_form})
+            blog_form = CreateBlogForm()
+            return render(request, "blog/create_blog.html", context={"form" : blog_form})
 
     def post(self, request):
         form = CreateBlogForm(request.POST)
-        if form.is_valid():
-            blog = form.save()
-            print(blog.get_absolute_url())
-            return HttpResponseRedirect(blog.get_absolute_url())
-        return render(request, "blog/create_blog.html", context={"form" : form})
+        if request.is_ajax():
+
+            if form.is_valid():
+                blog = form.save()
+
+                return JsonResponse({"success": True}, status=200)
+            return JsonResponse({"success":False}, status=400)
+
+
 
 
 class BlogDetail(View):
