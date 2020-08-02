@@ -13,31 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib.auth import views
+from django.views.generic import RedirectView
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from . import views
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
-
-# Add paths from the blog application
-from django.urls import include
-
-urlpatterns += [
+    path('js/',views.index),
     path('blog/', include('Blog.urls')),
-]
-
-#Add URL maps to redirect the base URL to our application
-from django.views.generic import RedirectView
-urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', RedirectView.as_view(url='/blog/', permanent=True)),
 ]
-# used to login and logout...
-urlpatterns += [
-    path('accounts/', include('django.contrib.auth.urls')),
-]
 
-# Use static() to add url mapping to serve static files during development (only)
-from django.conf import settings
-from django.conf.urls.static import static
-urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,10 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+
     <br>
     <div class="alert alert-success" role="alert">
         <h3 class="alert-heading" >All blogs</h3>
         <a href="{% url 'create-blog' %}" class="button"> Create Blog</a>
+
         {% if blogs %}
             <ul>
 
@@ -19,27 +21,7 @@
         {% else %}
             <p>There are no blogs.</p>
         {% endif %}
-    {% if users.has_other_pages %}
-  <ul class="pagination">
-    {% if users.has_previous %}
-      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in users.paginator.page_range %}
-      {% if users.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if users.has_next %}
-      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
+
     </div>
 
 {% endblock %}
