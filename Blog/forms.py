@@ -9,7 +9,7 @@ class CreateBlogForm(forms.ModelForm):
         model=Blog
         fields= "__all__"
         widgets = {
-            'message': forms.Textarea(attrs={'rows': 3 }),
+            'message': forms.Textarea(attrs={'rows': 4 }),
         }
 
     def __init__(self, *args, **kwargs):

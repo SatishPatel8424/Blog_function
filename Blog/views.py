@@ -63,22 +63,20 @@ class BlogListbyAuthor(View):
 
 
 class CreateBlogView(View):
+    form_class = CreateBlogForm
+    template_name = "blog/create_blog.html"
 
-    def get(self, request):
-            blog_form = CreateBlogForm()
-            return render(request, "blog/create_blog.html", context={"form" : blog_form})
-
-    def post(self, request):
-        form = CreateBlogForm(request.POST)
-        if request.is_ajax():
-
-            if form.is_valid():
-                blog = form.save()
-
-                return JsonResponse({"success": True}, status=200)
-            return JsonResponse({"success":False}, status=400)
+    def get(self, *args, **kwargs):
+        form = self.form_class()
+        return render(self.request, self.template_name, {"CreateBlogForm": form})
 
 
+    def post(self, *args, **kwargs):
+        if self.request.method == "POST" and self.request.is_ajax():
+            form = self.form_class(self.request.POST)
+            form.save()
+            return JsonResponse({"success": True}, status=200)
+        return JsonResponse({"success": False}, status=400)
 
 
 class BlogDetail(View):
