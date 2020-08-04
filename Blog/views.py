@@ -68,15 +68,14 @@ class CreateBlogView(View):
 
     def get(self, *args, **kwargs):
         form = self.form_class()
-        return render(self.request, self.template_name, {"CreateBlogForm": form})
-
+        return render(self.request, self.template_name, {"form": form})
 
     def post(self, *args, **kwargs):
-        if self.request.method == "POST" and self.request.is_ajax():
-            form = self.form_class(self.request.POST)
+        form = self.form_class(self.request.POST)
+        if form.is_valid():
             form.save()
             return JsonResponse({"success": True}, status=200)
-        return JsonResponse({"success": False}, status=400)
+        return JsonResponse({"success": False, "errors" : form.errors}, status=400)
 
 
 class BlogDetail(View):
