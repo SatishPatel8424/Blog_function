@@ -18,7 +18,9 @@ def index(request):
 
 class BlogList(View):
     def get(self, request):
-        blogs = Blog.objects.all().order_by('-post_date')
+        user = request.user
+        blogger = BlogAuthor.objects.get(user=user)
+        blogs = Blog.objects.filter(author=blogger).order_by('-post_date')
         most_recent = blogs[:3]
         page_request_var = 'page'
 
@@ -26,7 +28,7 @@ class BlogList(View):
                 'blogs' : blogs,
                 'page_request_var' : page_request_var,
                 'most_recent': most_recent,
-
+                
         }
         return render(request, "blog/blog_list.html", context)
 
