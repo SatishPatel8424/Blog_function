@@ -5,10 +5,11 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import BlogAuthor, Blog, BlogComment
+from .models import BlogUsers, Blog, BlogComment
 
 
 admin.site.register(BlogComment)
+admin.site.register(BlogUsers)
 
 class BlogCommentsInline(admin.TabularInline):
     """

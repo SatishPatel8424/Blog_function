@@ -1,4 +1,5 @@
 {% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,7 +12,7 @@
 
     <title>Jquery demo</title>
   </head>
-  <body>
+  <div>
     <h1>Jquery Demo</h1>
     <hr>
   <div class="container">
@@ -80,7 +81,123 @@
 
         </div>
     </div>
+    <br>
+    <hr>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <button id="btnfade">Click to fadeIn in boxes</button><br><br>
+                <div id="div1" style="width:80px;height:80px;display:none;background-color:red;"> red </div>
+                <div id="div2" style="width:80px;height:80px;display:none;background-color:green;"> green </div>
+                <div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"> blue </div>
+        </div>
+    </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="div4" style="width:80px;height:80px;background-color:red;"></div><br>
+                <div id="div5" style="width:80px;height:80px;background-color:green;"></div><br>
+                <div id="div6" style="width:80px;height:80px;background-color:blue;"></div>
+        </div>
+                <button id="buttonout">Click to fadeOut in boxes</button><br><br>
+
+    </div>
+    </div>
+    <br>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <button id="buttonToggle">Click to fadetoggle in boxes</button><br><br>
+                <div id="box1" style="width:80px;height:80px;display:none;background-color:red;"> red </div>
+                <div id="box2" style="width:80px;height:80px;display:none;background-color:green;"> green </div>
+                <div id="box3" style="width:80px;height:80px;display:none;background-color:blue;"> blue </div>
+
+        </div>
+    </div>
+    </div>
+    <br>
+    <hr>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                    <button id="buttonTo">Click to fadeto in boxes</button><br><br>
+                <div id="box4" style="width:80px;height:80px;display:none;background-color:red;"> red </div>
+                <div id="box5" style="width:80px;height:80px;display:none;background-color:green;"> green </div>
+                <div id="box6" style="width:80px;height:80px;display:none;background-color:blue;"> blue </div>
+
+        </div>
+    </div>
+    </div>
+    <br>
+    <hr>
+<div class="container">
+        <div class="row">
+            <div class="container">
+                <div style="color: blue"> First</div>
+                <div style="color: blue"> Second</div>
+                <div style="color: blue"> Third</div>
+                <div id="target" style="color:blue"> fourth (target)</div>
+                <div style="color: blue"> fifth</div>
+                <div style="color: blue"> sixth</div>
+                <div style="color: blue"> Seventh</div>
+            </div>
+            <div id="display"></div>
+
+        </div>
+</div>
+</div>
+<br>
+<hr>
+<h4 id="click_element"> click the elements</h4>
+  <div id="display_elements"></div>
+  <hr>
+  <br>
+  <div class="container">
+      <div class="row">
+          <form>
+              <div>
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" />
+                  <span class="help" hidden="hidden">Please enter a name </span>
+              </div>
+              <div>
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" />
+                  <span class="help" hidden="hidden">Please enter an email </span>
+              </div>
+          </form>
+      </div>
+  </div>
+  <hr>
+</br>
+  <div class="container">
+      <h4> Button validate</h4>
+          <br>
+      <div class="row">
+
+          <form>
+              <div><button class="btn validate" type="button"> First Button</button> </div>
+              <div><button class="btn validate" type="button"> Second Button</button> </div>
+
+          </form>
+          <div id="button-validate"></div>
+      </div>
+  </div>
+
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/jquerytest.js' %}"></script>
+    <script src="{% static '/js/jquerytest.js' %}"></script>
+    <script src="{% static '/css/styles.css' %}"></script>
+
+
+
   </body>
+
+</html>

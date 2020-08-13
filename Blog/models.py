@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
-class BlogAuthor(models.Model):
+class BlogUsers(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     bio = models.TextField(max_length=500, help_text="Please Enter the bio details here.")
@@ -23,9 +23,12 @@ class BlogAuthor(models.Model):
 class Blog(models.Model):
 
     name = models.CharField(max_length=500)
-    author = models.ForeignKey(BlogAuthor, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(BlogUsers, on_delete=models.SET_NULL, null=True)
     description = models.TextField(max_length=5000, help_text="Please Enter the blog description here.")
     post_date = models.DateTimeField(auto_now_add=True)
+
+
+
 
     class Meta:
         ordering = ["-post_date"]
