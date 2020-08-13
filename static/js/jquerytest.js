@@ -79,11 +79,11 @@ $(document).ready(function () {
             $('span.help').attr('hidden','hidden');
        });
      });
-
-
-
-
-
+    $(function (){
+        $('form').on('click','button.validate',function (){
+            $('#button-validate').text("clicked");
+        });
+    });
 });
 
 
