@@ -72,6 +72,13 @@ $(document).ready(function () {
           $('#display_elements').text(output);
 
       });
+    $(function (){
+       $('input[type="text"]').focus(function (){
+           $(this).next('span.help').removeAttr('hidden');
+        }).blur(function (){
+            $('span.help').attr('hidden','hidden');
+       });
+     });
 
 
 
