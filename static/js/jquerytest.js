@@ -60,11 +60,25 @@ $(document).ready(function () {
         $("#box4").fadeTo("fast",0.15);
         $("#box5").fadeTo("slow",0.5);
         $("#box6").fadeTo(3000,0.8);
+
   });
+    var element = $('#target');
+    var container = $('#container');
+    var index = container.children().index(element);
+    $('#display').text('index is :'+index);
+    // page x and y display
+    $("#click_element").click(function(event){
+        output = 'user clicked on : ' + event.pageX + '/' + event.pageY;
+          $('#display_elements').text(output);
+
+      });
+
+
 
 
 
 });
+
 
 
 

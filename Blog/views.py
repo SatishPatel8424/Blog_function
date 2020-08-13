@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, JsonResponse, Http404, HttpResponse
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 
 from Blog.forms import CreateBlogForm,CommentForm
-from .models import Blog,BlogAuthor
+from .models import Blog,BlogUsers
 from django.views import View
 
 
@@ -16,21 +16,31 @@ def index(request):
         'index.html',
     )
 
+
 class BlogList(View):
     def get(self, request):
-        user = request.user
-        blogger = BlogAuthor.objects.get(user=user)
-        blogs = Blog.objects.filter(author=blogger).order_by('-post_date')
-        most_recent = blogs[:3]
-        page_request_var = 'page'
+        if not request.user.is_authenticated:
+            blogs = Blog.objects.all().order_by('-post_date')
+            context = {
+                'blogs': blogs,
 
-        context = {
-                'blogs' : blogs,
-                'page_request_var' : page_request_var,
+            }
+            return render(request,'blog/blog_list.html',context)
+        else:
+            user = request.user
+            blogger = BlogUsers.objects.get(user=user)
+            blogs = Blog.objects.filter(author=blogger).order_by('-post_date')
+            most_recent = blogs[:3]
+            page_request_var = 'page'
+
+            context = {
+                'blogs': blogs,
+                'page_request_var': page_request_var,
                 'most_recent': most_recent,
-                
-        }
-        return render(request, "blog/blog_list.html", context)
+                'blogger': blogger,
+
+            }
+            return render(request, "blog/blog_list.html", context)
 
 
 class BlogDetail(View):
@@ -48,7 +58,7 @@ class BlogDetail(View):
 
 class BloggerList(View):
     def get(self, request):
-        BlogAuthor1 = BlogAuthor.objects.all()
+        BlogAuthor1 = BlogUsers.objects.all()
         return render(request, 'blog/blogauthor_list.html', {'BlogAuthor1': BlogAuthor1})
 
 
@@ -56,7 +66,7 @@ class BloggerList(View):
 class BlogListbyAuthor(View):
     def get(self, request,pk):
 
-        blogger = BlogAuthor.objects.get(pk=pk) #Bloger
+        blogger = BlogUsers.objects.get(pk=pk) #Bloger
         blogs = Blog.objects.filter(author=blogger)
         context = {'blog_author': blogger,
                    'blogs': blogs}
