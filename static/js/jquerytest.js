@@ -1,24 +1,27 @@
 $(document).ready(function () {
+    var element;
+    var container;
+    var index;
+    var $dialog;
+
     $("button").click(function () {
         $("p").hide();
     });
-
     // h1 tage is click to hide
     $("h1").click(function(){
     $(this).hide();
-  });
-
-    // mouse entered time working
+    });
+        // mouse entered time working
     $("#h2").mouseenter(function(event){
         alert("You entered p1!");
         event.preventDefault();
     });
 
-    // mouse leave methods
+        // mouse leave methods
      $("#h3").mouseleave(function (event){
         alert("mouse is leave");
         event.preventDefault();
-    });
+     });
 
      // input type to focus and blur
      $("input").focus(function (){
@@ -49,53 +52,47 @@ $(document).ready(function () {
         $("#div4").fadeOut();
         $("#div5").fadeOut("slow");
         $("#div6").fadeOut(3000);
-  });
+    });
      // fade toggle example
     $("#buttonToggle").click(function(){
         $("#box1").fadeToggle();
         $("#box2").fadeToggle("slow");
         $("#box3").fadeToggle(3000);
-  });
+    });
     $("#buttonTo").click(function(){
         $("#box4").fadeTo("fast",0.15);
         $("#box5").fadeTo("slow",0.5);
         $("#box6").fadeTo(3000,0.8);
 
-  });
-    var element = $('#target');
-    var container = $('#container');
-    var index = container.children().index(element);
+    });
+    element = $('#target');
+    container = $('#container');
+    index = container.children().index(element);
     $('#display').text('index is :'+index);
     // page x and y display
     $("#click_element").click(function(event){
         output = 'user clicked on : ' + event.pageX + '/' + event.pageY;
           $('#display_elements').text(output);
-
-      });
-    $(function (){
-       $('input[type="text"]').focus(function (){
-           $(this).next('span.help').removeAttr('hidden');
-        }).blur(function (){
-            $('span.help').attr('hidden','hidden');
-       });
-     });
-    $(function (){
-        $('form').on('click','button.validate',function (){
-            $('#button-validate').text("clicked");
-        });
     });
-    $(function (){
-        $('#createButton').click(function (){
-            $('#div_Target').html('<button type="Button" class="btn-primary updater">New Button</button>');
-        });
-        // $('button.updater').click(function (){
-        //    $('#Button_display_new').text($(this).text()+ 'was clicked!');
-        // });
-        $('#button_forms').delegate('button.updater','click',function (){
-            $('#Button_display_new').text($(this).text() + ' was clicked!');
-        });
 
+    $('input[type="text"]').focus(function (){
+        $(this).next('span.help').removeAttr('hidden');
+    }).blur(function (){
+        $('span.help').attr('hidden','hidden');
     });
+
+
+    $('form').on('click','button.validate',function (){
+        $('#button-validate').text("clicked");
+    });
+
+    $('#createButton').click(function (){
+        $('#div_Target').html('<button type="Button" class="btn-primary updater">New Button</button>');
+    });
+    $('#button_forms').delegate('button.updater','click',function (){
+        $('#Button_display_new').text($(this).text() + ' was clicked!');
+    });
+
     // wrap example
     $('#wrap-target').click(function (){
         $('.wrap-me').wrap('<div style="color: red"></div>');
@@ -105,7 +102,7 @@ $(document).ready(function () {
         $('#newContent').replaceWith('<div style="color: red"> content replace with new content</div>');
     });
     // clone example
-    var $dialog = $('#dialog').clone();
+    $dialog = $('#dialog').clone();
     $dialog.removeAttr('id');
     $('#executer-clone').click(function (){
         $('#container-clone').append($dialog.clone());
