@@ -107,6 +107,7 @@ $(document).ready(function () {
     $('#executer-clone').click(function (){
         $('#container-clone').append($dialog.clone());
     });
+    sayHiBye("satish","patel");
 });
 
 
