@@ -84,6 +84,32 @@ $(document).ready(function () {
             $('#button-validate').text("clicked");
         });
     });
+    $(function (){
+        $('#createButton').click(function (){
+            $('#div_Target').html('<button type="Button" class="btn-primary updater">New Button</button>');
+        });
+        // $('button.updater').click(function (){
+        //    $('#Button_display_new').text($(this).text()+ 'was clicked!');
+        // });
+        $('#button_forms').delegate('button.updater','click',function (){
+            $('#Button_display_new').text($(this).text() + ' was clicked!');
+        });
+
+    });
+    // wrap example
+    $('#wrap-target').click(function (){
+        $('.wrap-me').wrap('<div style="color: red"></div>');
+    });
+    // replacewith example
+    $('#executer').click(function (){
+        $('#newContent').replaceWith('<div style="color: red"> content replace with new content</div>');
+    });
+    // clone example
+    var $dialog = $('#dialog').clone();
+    $dialog.removeAttr('id');
+    $('#executer-clone').click(function (){
+        $('#container-clone').append($dialog.clone());
+    });
 });
 
 
