@@ -3,6 +3,7 @@ $(document).ready(function () {
     var container;
     var index;
     var $dialog;
+    var g;
 
     $("button").click(function () {
         $("p").hide();
@@ -108,6 +109,7 @@ $(document).ready(function () {
         $('#container-clone').append($dialog.clone());
     });
     sayHiBye("satish","patel");
+    closures();
 });
 
 
