@@ -4,6 +4,7 @@ $(document).ready(function () {
     var index;
     var $dialog;
     var g;
+    var worker;
 
     $("button").click(function () {
         $("p").hide();
@@ -110,6 +111,25 @@ $(document).ready(function () {
     });
     sayHiBye("satish","patel");
     closures();
+    // worker demo
+    worker = new Worker('./js/worker.js');
+    worker.addEventListener('message',function (e){
+       if(e.data === "READY"){
+           $('#messages').append('<li> worker ready </li>');
+           $('send-message').removeAttr('disabled').click(function (){
+               var message = $('#message').val();
+                worker.postMessage(message);
+           });
+           $('#message').focus();
+       }else {
+           $('#messages').append('<li>'+ e.data + '</li>');
+           $('#message').val('').focus();
+
+
+       }
+
+    });
+
 });
 
 

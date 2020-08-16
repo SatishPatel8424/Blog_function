@@ -249,11 +249,26 @@
       </div>
        <h4 id="demo_display"></h4>
   </div>
+  <br>
+  <hr>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <input type="text" id="messages" class="form-control"/>
+              <button type="button" id="send-message" disabled="disabled"> message</button>
+          </div>
+          <ul id="message"></ul>
 
+
+      </div>
+  </div>
+
+   <! -- Creating a web worker -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static '/js/jquerytest.js' %}"></script>
     <script src="{% static '/js/demo_Nested_functions.js' %}"></script>
     <script src="{% static '/js/Fuction_Closures.js' %}"></script>
+    <script src="{% static '/js/worker.js' %}"></script>
     <script src="{% static '/css/styles.css' %}"></script>
 
   </body>
