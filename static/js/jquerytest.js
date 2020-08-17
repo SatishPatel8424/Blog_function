@@ -5,6 +5,8 @@ $(document).ready(function () {
     var $dialog;
     var g;
     var worker;
+    var person;
+    var jsonData;
 
     $("button").click(function () {
         $("p").hide();
@@ -116,7 +118,7 @@ $(document).ready(function () {
     worker.addEventListener('message',function (e){
        if(e.data === "READY"){
            $('#messages').append('<li> worker ready </li>');
-           $('send-message').removeAttr('disabled').click(function (){
+           $('#send-message').removeAttr('disabled').click(function (){
                var message = $('#message').val();
                 worker.postMessage(message);
            });
@@ -124,11 +126,40 @@ $(document).ready(function () {
        }else {
            $('#messages').append('<li>'+ e.data + '</li>');
            $('#message').val('').focus();
-
-
        }
+    });
+    //Serializing an object
+    $('#stringify').click(function (){
+        person = new Object();
+        person.firstName = $('#first-name').val();
+        person.lastName = $('#last-name').val();
+
+        jsonData = JSON.stringify(person);
+        $('#json-data').val(jsonData);
+    });
+    $('#parse').click(function (){
+        jsonData = $('#json-data').val();
+
+        person = JSON.parse(jsonData);
+        $('#first-name').val(person.firstName);
+        $('#last-name').val(person.lastName);
+    });
+    $('#getdata').click(function (){
+        $.get('/js/',function (data){
+            $('#GetOutput').text(data);
+        });
 
     });
+
+    $('#load_data_id').click(function (){
+       person = { firstName1: $('#first-name1').val(),
+           lastName1: $('#last-name1').val()};
+       $.post('/js/',person).done(function (data){
+        $('#formoutput').text(data.firstName1 + ' ' + data.lastName1);
+       });
+
+    });
+
 
 });
 

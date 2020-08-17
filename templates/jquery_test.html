@@ -254,16 +254,58 @@
   <div class="container">
       <div class="row">
           <div class="col-md-12">
-              <input type="text" id="messages" class="form-control"/>
-              <button type="button" id="send-message" disabled="disabled"> message</button>
+              <label for="first-name"> First name</label>
+              <input type="text" class="form-control" id="first-name"/>
           </div>
-          <ul id="message"></ul>
+          <div class="col-md-12">
+              <label for="last-name"> Last name</label>
+              <input type="text" class="form-control" id="last-name"/>
+          </div>
+          <div class="col-md-12">
+             JSON:
+          </div>
+          <div class="col-md-12">
+              <textarea class="form-control" id="json-data" col="60"></textarea>
+          </div>
+          <div class="col-md-12">
+              <button type="button" class="btn-primary" id="stringify">Stringify</button>
+              <button type="button" class="btn-primary" id="parse">Parse</button>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <button type="button" class="btn-primary" id="getdata">Load data</button>
+          </div>
+          <div id="GetOutput" class="col-md-12">
 
+          </div>
+      </div>
+  </div>
+  <br>
+  <hr>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <label for="first-name1"> First name:</label>
+              <input type="text"  id="first-name1"/>
+          </div>
+           <div class="col-md-12">
+              <label for="last-name1"> Last name</label>
+              <input type="text"  id="last-name1"/>
+          </div>
+          <div class="col-md-12">
+              <button type="button" class="btn-primary" id="load_data_id"> Load Data</button>
+          </div>
+          <div class="col-md-12" id="formoutput">
+
+          </div>
 
       </div>
   </div>
 
-   <! -- Creating a web worker -->
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static '/js/jquerytest.js' %}"></script>
     <script src="{% static '/js/demo_Nested_functions.js' %}"></script>

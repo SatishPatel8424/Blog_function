@@ -25,7 +25,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('js/',views.index),
+    path('js/',views.index ,name='js'),
+    path('js1/',views.worker),
     path('blog/', include('Blog.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', RedirectView.as_view(url='/blog/', permanent=True)),
