@@ -14,6 +14,7 @@ $(document).ready(function(){
                 $('.alert').alert()
                 $('#message').text("Post saved successfully");
 
+
             },
             error : function(response){
                 console.log(response);

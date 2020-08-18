@@ -3,12 +3,12 @@
 {% block content %}
 
     <br>
-    <div class="alert alert-success" role="alert">
+    <div  id="blog_list" class="alert alert-success" role="alert">
         <h3 class="alert-heading" >All blogs</h3>
         <a href="{% url 'create-blog' %}" class="button"> Create Blog</a>
 
         {% if blogs %}
-            <ul>
+            <ul id="blogListli">
 
                 {% for blog in blogs %}
                     <li>

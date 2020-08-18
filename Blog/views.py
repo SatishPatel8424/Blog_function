@@ -82,6 +82,7 @@ class CreateBlogView(View):
         form = self.form_class()
         return render(self.request, self.template_name, {"form": form})
 
+
     def post(self, *args, **kwargs):
         form = self.form_class(self.request.POST)
         if form.is_valid():
