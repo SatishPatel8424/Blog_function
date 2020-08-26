@@ -1,17 +1,23 @@
-function list_display(){
-    var url =  '/blog/blogs/';
-    $.ajax({
-        type:'GET',
-        url: url,
-        data : { the_post_list : $('#blogListli').val() },
-    success: function(json) {
-      $('#blogListli').val('');
-    },
-    complete: function() {
-      setTimeout(list_display, 1000);
-    }
-  });
-}
 $(document).ready(function(){
-setTimeout(list_display, 5000);
-    });
+
+    setInterval(function(){
+        let url =  '/blog/blogs/';
+        $.ajax({
+            type:'GET',
+            url: url,
+
+            success: function(response) {
+                $("#BlogList_ajax").html('');
+
+                $.each(JSON.parse(response),function(i,v)
+                {
+                    $('#BlogList_ajax').append('<li> <a href="">'+v.fields.name+'</a></li>');
+                })
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        });
+    }, 1000)
+
+});

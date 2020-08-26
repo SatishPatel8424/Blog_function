@@ -8,15 +8,19 @@
         <a href="{% url 'create-blog' %}" class="button"> Create Blog</a>
 
         {% if blogs %}
-            <ul id="blogListli">
+
+            <ul id="listdisplay12">
 
                 {% for blog in blogs %}
+
                     <li>
                         <a href="{% url 'blog-detail' blog.pk %}">{{ blog.name }}</a> ({{blog.post_date}}) — <a href="{% url 'blogs-by-author' blog.author.pk %}">{{ blog.author }}</a>
                     </li>
+
                 {% endfor %}
 
             </ul>
+            </div>
 
         {% else %}
             <p>There are no blogs.</p>

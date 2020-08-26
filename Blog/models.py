@@ -27,9 +27,6 @@ class Blog(models.Model):
     description = models.TextField(max_length=5000, help_text="Please Enter the blog description here.")
     post_date = models.DateTimeField(auto_now_add=True)
 
-
-
-
     class Meta:
         ordering = ["-post_date"]
 
@@ -61,6 +58,5 @@ class BlogComment(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog-detail', args=[str(self.blog.id)])
-
 
 

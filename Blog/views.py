@@ -1,10 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
+from django.core.serializers import json
 from django.http import HttpResponseRedirect, JsonResponse, Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
+import json
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
-from Blog.forms import CreateBlogForm,CommentForm
+from django.views.generic import CreateView, UpdateView
+
+from Blog.forms import CreateBlogForm,CommentForm,ProfileForm,SignUpForm
 from .models import Blog,BlogUsers
 from django.views import View
 
@@ -21,26 +28,17 @@ class BlogList(View):
     def get(self, request):
         if not request.user.is_authenticated:
             blogs = Blog.objects.all().order_by('-post_date')
-            context = {
-                'blogs': blogs,
+            blog_list = serializers.serialize('json', blogs)
+            return JsonResponse(blog_list, safe=False)
 
-            }
-            return render(request,'blog/blog_list.html',context)
+
         else:
             user = request.user
             blogger = BlogUsers.objects.get(user=user)
             blogs = Blog.objects.filter(author=blogger).order_by('-post_date')
-            most_recent = blogs[:3]
-            page_request_var = 'page'
+            blog_list1 = serializers.serialize('json', blogs)
+            return JsonResponse(blog_list1, safe=False)
 
-            context = {
-                'blogs': blogs,
-                'page_request_var': page_request_var,
-                'most_recent': most_recent,
-                'blogger': blogger,
-
-            }
-            return render(request, "blog/blog_list.html", context)
 
 
 class BlogDetail(View):
@@ -49,9 +47,7 @@ class BlogDetail(View):
         most_recent = Blog.objects.order_by('-timestamp')[:3]
 
         context = {
-
             'blog1': blog1,
-
         }
         return render(request, "blog/blog_detail.html", context)
 
@@ -117,4 +113,19 @@ class BlogDetail(View):
         return render(request, "blog/blog_detail.html", context={"form": form})
 
 
+class BlogList_ajax(View):
+    def get(self, request,):
+        blogs = Blog.objects.all().order_by('-post_date')
 
+        return render(request, "blog/blog_list_new.html", context={"blogs" : blogs})
+
+class SignUpView(CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy('login')
+    template_name = 'blog/signup.html'
+
+class ProfileView(UpdateView):
+    model = User
+    form_class = ProfileForm
+    success_url = reverse_lazy('home')
+    template_name = 'blog/profile.html'

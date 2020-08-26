@@ -5,6 +5,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="Blog.views.author" />
+          <option value="Blog.views.reder_to_response" />
         </list>
       </option>
     </inspection_tool>

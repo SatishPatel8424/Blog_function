@@ -9,7 +9,7 @@
         <p> {{blog_author.bio}}</p>
         {% if blogs %}
             <h3>Blogs list</h3>
-            <ul>
+            <ul id="45">
                 {% for blog in blogs %}
                     <li>
                         <a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a> ({{blog.post_date}})</a>
