@@ -126,6 +126,7 @@ class SignUpView(CreateView):
     template_name = 'blog/signup.html'
 
 
+
 class ProfileView(UpdateView):
     model = User
     form_class = ProfileForm
