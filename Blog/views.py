@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core import serializers
 from django.core.serializers import json
-from django.http import HttpResponseRedirect, JsonResponse, Http404, HttpResponse
+from django.http import HttpResponseRedirect, JsonResponse, Http404, HttpResponse, request
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
@@ -34,7 +34,8 @@ class BlogList(View):
 
         else:
             user = request.user
-            blogger = BlogUsers.objects.get(user=user)
+            bio = BlogUsers.objects.get(bio='bio')
+            blogger = BlogUsers.objects.get(user=user,bio=bio)
             blogs = Blog.objects.filter(author=blogger).order_by('-post_date')
             blog_list1 = serializers.serialize('json', blogs)
             return JsonResponse(blog_list1, safe=False)
@@ -61,7 +62,6 @@ class BloggerList(View):
 
 class BlogListbyAuthor(View):
     def get(self, request,pk):
-
         blogger = BlogUsers.objects.get(pk=pk) #Bloger
         blogs = Blog.objects.filter(author=blogger)
         context = {'blog_author': blogger,
@@ -82,6 +82,7 @@ class CreateBlogView(View):
     def post(self, *args, **kwargs):
         form = self.form_class(self.request.POST)
         if form.is_valid():
+
             form.save()
             return JsonResponse({"success": True}, status=200)
         return JsonResponse({"success": False, "errors" : form.errors}, status=400)
@@ -123,6 +124,7 @@ class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'blog/signup.html'
+
 
 class ProfileView(UpdateView):
     model = User
