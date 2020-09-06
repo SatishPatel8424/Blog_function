@@ -3,14 +3,14 @@
 {% block content %}
     <br>
 <div class="card">
-    <h5 class="card-header alert alert-success">Blogger: {{blog_author.user}}</h5>
+    <h5 class="card-header alert alert-success">Blogger: {{blogger.user}}</h5>
     <div class="card-body">
         <h4>Bio</h4>
-        <p> {{blog_author.bio}}</p>
-        {% if blogs %}
+        <p> {{blogger.bio}}</p>
+        {% if blog_list %}
             <h3>Blogs list</h3>
-            <ul id="45">
-                {% for blog in blogs %}
+            <ul>
+                {% for blog in blog_list %}
                     <li>
                         <a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a> ({{blog.post_date}})</a>
                     </li>

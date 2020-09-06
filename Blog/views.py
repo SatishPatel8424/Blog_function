@@ -6,14 +6,13 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 import json
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy
-
-from django.views.generic import CreateView, UpdateView
-
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, UpdateView, DetailView
 from Blog.forms import CreateBlogForm,CommentForm,ProfileForm,SignUpForm
-from .models import Blog,BlogUsers
-from django.views import View
+from .models import Blog, BlogUsers, BlogComment
+from django.views import View, generic
 
 
 # Create your views here.
@@ -34,43 +33,45 @@ class BlogList(View):
 
         else:
             user = request.user
-            bio = BlogUsers.objects.get(bio='bio')
-            blogger = BlogUsers.objects.get(user=user,bio=bio)
+           # bio = BlogUsers.objects.get(bio='bio')
+            blogger = BlogUsers.objects.get(user=user)
             blogs = Blog.objects.filter(author=blogger).order_by('-post_date')
             blog_list1 = serializers.serialize('json', blogs)
             return JsonResponse(blog_list1, safe=False)
 
 
 
-class BlogDetail(View):
-    def get(self, request,pk):
-        blog1 = Blog.objects.get(pk=pk)
-        most_recent = Blog.objects.order_by('-timestamp')[:3]
-
-        context = {
-            'blog1': blog1,
-        }
-        return render(request, "blog/blog_detail.html", context)
+class BlogDetail(generic.DetailView):
+    model = Blog
+    template_name = 'blog/blog_detail.html'
 
 
-class BloggerList(View):
-    def get(self, request):
-        BlogAuthor1 = BlogUsers.objects.all()
-        return render(request, 'blog/blogauthor_list.html', {'BlogAuthor1': BlogAuthor1})
+class BloggerList(generic.ListView):
+    model = BlogUsers
+    paginate_by = 5
+    template_name = 'blog/blogauthor_list.html'
+
+    def get_queryset(self):
+        return BlogUsers.objects.all()
 
 
+class BlogListbyAuthor(generic.ListView):
+    model = Blog
+    paginate_by = 5
+    template_name = 'blog/blog_list_by_author.html'
 
-class BlogListbyAuthor(View):
-    def get(self, request,pk):
-        blogger = BlogUsers.objects.get(pk=pk) #Bloger
-        blogs = Blog.objects.filter(author=blogger)
-        context = {'blog_author': blogger,
-                   'blogs': blogs}
+    def get_queryset(self):
+        id = self.kwargs['pk']
+        target_author = get_object_or_404(BlogUsers, pk=id)
+        return Blog.objects.filter(author=target_author)
 
-        return render(request, "blog/blog_list_by_author.html", context)
+    def get_context_data(self, **kwargs):
+        context = super(BlogListbyAuthor, self).get_context_data(**kwargs)
+        context['blogger'] = get_object_or_404(BlogUsers, pk=self.kwargs['pk'])
+        return context
 
 
-class CreateBlogView(View):
+class CreateBlogView(generic.FormView):
     form_class = CreateBlogForm
     template_name = "blog/create_blog.html"
 
@@ -78,53 +79,73 @@ class CreateBlogView(View):
         form = self.form_class()
         return render(self.request, self.template_name, {"form": form})
 
-
     def post(self, *args, **kwargs):
         form = self.form_class(self.request.POST)
+        buser=BlogUsers.objects.get(user=self.request.user)
         if form.is_valid():
-
-            form.save()
+            post = form.save(commit=False)
+            post.author = buser
+            post.save()
             return JsonResponse({"success": True}, status=200)
-        return JsonResponse({"success": False, "errors" : form.errors}, status=400)
+
+        return JsonResponse({"success": False, "errors": form.errors}, status=400)
 
 
-class BlogDetail(View):
-    def get(self, request,pk):
-        blog = Blog.objects.get(id=pk)
-        form = CommentForm()
-        comments = blog.blogcomment_set.all()
-        return render(request,
-                      "blog/blog_detail.html",
-                      context={"form":form,
-                               "comments": comments,
-                               "blog": blog})
+class BlogCommentCreate(LoginRequiredMixin, CreateView):
+
+    model = BlogComment
+    fields = ['description', ]
+
+    def get_context_data(self, **kwargs):
+
+        context = super(BlogCommentCreate, self).get_context_data(**kwargs)
+        context['blog'] = get_object_or_404(Blog, pk=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.blog = get_object_or_404(Blog, pk=self.kwargs['pk'])
+        return super(BlogCommentCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('blog-detail', kwargs={'pk': self.kwargs['pk'], })
 
 
-    def post(self,request, pk):
-        blog = Blog.objects.get(id=pk)
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            blog_comment = form.save(commit=False)
-            blog_comment.blog = blog
-            if request.user.is_authenticated:
-                blog_comment.author = request.user
-            blog_comment.save()
+class BlogList_ajax(generic.ListView):
+    model = Blog
+    paginate_by = 5
+    template_name = 'blog/blog_list_new.html'
+    ordering = ['-post_date']
 
-            return  HttpResponseRedirect(blog_comment.get_absolute_url())
-        return render(request, "blog/blog_detail.html", context={"form": form})
+    def get_queryset(self):
+
+        return Blog.objects.all()
 
 
-class BlogList_ajax(View):
-    def get(self, request,):
-        blogs = Blog.objects.all().order_by('-post_date')
-
-        return render(request, "blog/blog_list_new.html", context={"blogs" : blogs})
 
 class SignUpView(CreateView):
     form_class = SignUpForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('blog')
     template_name = 'blog/signup.html'
 
+    def post(self, request, *args, **kwargs):
+        def form_valid(self, form):
+            # save the new user first
+            user1 = form.save()
+            BlogUsers.objects.create(user=user1, bio=request.POST.get('bio'))
+            # get the username and password
+            username = self.request.POST['username']
+            password = self.request.POST['password1']
+            # authenticate user then login
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], )
+            login(self.request, user)
+            return super(SignUpView).form_valid(form)
+
+        def form_invalid(self, form):
+            """If the form is invalid, render the invalid form."""
+            return self.render_to_response(self.get_context_data(form=form))
+
+        return HttpResponseRedirect(reverse('blogs_list'))
 
 
 class ProfileView(UpdateView):

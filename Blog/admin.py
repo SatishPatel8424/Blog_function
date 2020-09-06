@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib import admin
 
 # Register your models here.
-
+from .forms import CreateBlogForm
 from .models import BlogUsers, Blog, BlogComment
 
 
@@ -12,9 +12,7 @@ admin.site.register(BlogComment)
 admin.site.register(BlogUsers)
 
 class BlogCommentsInline(admin.TabularInline):
-    """
-    Used to show 'existing' blog comments inline below associated blogs
-    """
+
     model = BlogComment
     max_num=0
 

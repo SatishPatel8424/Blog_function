@@ -1,6 +1,6 @@
 from django import forms
 from django.urls import reverse
-from Blog.models import Blog, BlogComment
+from Blog.models import Blog, BlogComment, BlogUsers
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -10,16 +10,31 @@ class CreateBlogForm(forms.ModelForm):
 
     class Meta:
         model=Blog
-        fields= "__all__"
+        fields = [
+            'name',
+            'description',
+
+        ]
+
         widgets = {
-            'message': forms.Textarea(attrs={'rows': 2 ,'col':4}),
+            'message': forms.Textarea(attrs={'rows': 2 ,'col':4})
+
         }
+
+
 
     def __init__(self, *args, **kwargs):
         super(CreateBlogForm, self).__init__(*args, **kwargs)
+        # self.fields['author'].initial = self.request.user
         for field in self.fields:
             self.fields[field].widget.attrs.update({
                 'class': 'form-control',"rows":2})
+
+
+    def clean_author(self):
+        if not self.cleaned_data['author']:
+            return User()
+        return self.cleaned_data['author']
 
 
 class CommentForm(forms.ModelForm):
@@ -40,6 +55,7 @@ class SignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=30, required=False, help_text='Optional')
     email = forms.EmailField(max_length=254, help_text='Enter a valid email address')
     bio = forms.CharField(max_length=500, help_text="Please Enter the bio details here.")
+
     class Meta:
         model = User
         fields = [
@@ -51,6 +67,13 @@ class SignUpForm(UserCreationForm):
             'password2',
             'bio'
             ]
+
+    def __init__(self, *args, **kwargs):
+            super(SignUpForm, self).__init__(*args, **kwargs)
+            for field in self.fields:
+                self.fields[field].widget.attrs.update({
+                    'class': 'form-control', "rows": 2})
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:
