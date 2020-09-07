@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DetailView
-from Blog.forms import CreateBlogForm,CommentForm,ProfileForm,SignUpForm
+from Blog.forms import CreateBlogForm,ProfileForm,SignUpForm
 from .models import Blog, BlogUsers, BlogComment
 from django.views import View, generic
 
@@ -24,7 +24,7 @@ def index(request):
 
 
 class BlogList(View):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             blogs = Blog.objects.all().order_by('-post_date')
             blog_list = serializers.serialize('json', blogs)
@@ -41,6 +41,7 @@ class BlogList(View):
 
 
 
+
 class BlogDetail(generic.DetailView):
     model = Blog
     template_name = 'blog/blog_detail.html'
@@ -48,11 +49,10 @@ class BlogDetail(generic.DetailView):
 
 class BloggerList(generic.ListView):
     model = BlogUsers
-    paginate_by = 5
     template_name = 'blog/blogauthor_list.html'
+    queryset = BlogUsers.objects.all()
 
-    def get_queryset(self):
-        return BlogUsers.objects.all()
+
 
 
 class BlogListbyAuthor(generic.ListView):
@@ -92,12 +92,11 @@ class CreateBlogView(generic.FormView):
 
 
 class BlogCommentCreate(LoginRequiredMixin, CreateView):
-
     model = BlogComment
-    fields = ['description', ]
+    fields = ["description", ]
+    template_name = 'blog/blogcomment_form.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(BlogCommentCreate, self).get_context_data(**kwargs)
         context['blog'] = get_object_or_404(Blog, pk=self.kwargs['pk'])
         return context
@@ -109,7 +108,6 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('blog-detail', kwargs={'pk': self.kwargs['pk'], })
-
 
 class BlogList_ajax(generic.ListView):
     model = Blog
@@ -151,5 +149,5 @@ class SignUpView(CreateView):
 class ProfileView(UpdateView):
     model = User
     form_class = ProfileForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('index')
     template_name = 'blog/profile.html'

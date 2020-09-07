@@ -15,7 +15,4 @@ urlpatterns = [
     path('blogs_list/', Blog1.BlogList_ajax.as_view(), name='blogs_list'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile')
-
-
-
 ]

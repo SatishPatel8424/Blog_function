@@ -5,10 +5,10 @@
     <div class="alert alert-success" role="alert">
         <h1 class="alert-heading" >All bloggers</h1>
         <hr>
-        {% if blogauthor_list %}
+        {% if blogusers_list %}
             <ul>
 
-                {% for author in blogauthor_list %}
+                {% for author in blogusers_list %}
                     <li>
                        <a href="{% url 'blogs-by-author' author.pk %}">{{ author }}</a>
                     </li>

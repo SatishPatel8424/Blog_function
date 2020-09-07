@@ -37,15 +37,15 @@ class CreateBlogForm(forms.ModelForm):
         return self.cleaned_data['author']
 
 
-class CommentForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(CommentForm, self).__init__(*args, **kwargs)
-        self.fields['description'].widget.attrs.update({'class': 'form-control', "rows":2})
-
-    class Meta:
-        model=BlogComment
-        fields=["description",]
+# class CommentForm(forms.ModelForm):
+#
+#     def __init__(self, *args, **kwargs):
+#         super(CommentForm, self).__init__(*args, **kwargs)
+#         self.fields['description'].widget.attrs.update({'class': 'form-control', "rows":2})
+#
+#     class Meta:
+#         model=BlogComment
+#         fields=["description",]
 
 
 
