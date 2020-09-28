@@ -126,23 +126,15 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('blog')
     template_name = 'blog/signup.html'
 
-    def post(self, request, *args, **kwargs):
-        def form_valid(self, form):
-            # save the new user first
-            user1 = form.save()
-            BlogUsers.objects.create(user=user1, bio=request.POST.get('bio'))
-            # get the username and password
-            username = self.request.POST['username']
-            password = self.request.POST['password1']
-            # authenticate user then login
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], )
-            login(self.request, user)
-            return super(SignUpView).form_valid(form)
 
-        def form_invalid(self, form):
-            """If the form is invalid, render the invalid form."""
-            return self.render_to_response(self.get_context_data(form=form))
-
+    def form_valid(self, form):
+        form.save()
+        # get the username and password
+        username = self.request.POST['username']
+        password = self.request.POST['password1']
+        # authenticate user then login
+        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'], )
+        login(self.request, user)
         return HttpResponseRedirect(reverse('blogs_list'))
 
 
