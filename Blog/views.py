@@ -22,7 +22,7 @@ def index(request):
         'index.html',
     )
 
-
+#blog list view
 class BlogList(View):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -39,22 +39,18 @@ class BlogList(View):
             blog_list1 = serializers.serialize('json', blogs)
             return JsonResponse(blog_list1, safe=False)
 
-
-
-
+# blog detail view
 class BlogDetail(generic.DetailView):
     model = Blog
     template_name = 'blog/blog_detail.html'
 
-
+# Blogger list view
 class BloggerList(generic.ListView):
     model = BlogUsers
     template_name = 'blog/blogauthor_list.html'
     queryset = BlogUsers.objects.all()
 
-
-
-
+# Bloglist by author view
 class BlogListbyAuthor(generic.ListView):
     model = Blog
     paginate_by = 5
@@ -70,7 +66,7 @@ class BlogListbyAuthor(generic.ListView):
         context['blogger'] = get_object_or_404(BlogUsers, pk=self.kwargs['pk'])
         return context
 
-
+# create blog view
 class CreateBlogView(generic.FormView):
     form_class = CreateBlogForm
     template_name = "blog/create_blog.html"
@@ -87,10 +83,9 @@ class CreateBlogView(generic.FormView):
             post.author = buser
             post.save()
             return JsonResponse({"success": True}, status=200)
-
         return JsonResponse({"success": False, "errors": form.errors}, status=400)
 
-
+# blog comment view
 class BlogCommentCreate(LoginRequiredMixin, CreateView):
     model = BlogComment
     fields = ["description", ]
@@ -109,18 +104,19 @@ class BlogCommentCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('blog-detail', kwargs={'pk': self.kwargs['pk'], })
 
+# blog list ajax view
 class BlogList_ajax(generic.ListView):
     model = Blog
     paginate_by = 5
     template_name = 'blog/blog_list_new.html'
     ordering = ['-post_date']
 
-    def get_queryset(self):
+    # def get_queryset(self):
+    #
+    #     return Blog.objects.all()
 
-        return Blog.objects.all()
 
-
-
+# singup view
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('blog')
@@ -137,7 +133,7 @@ class SignUpView(CreateView):
         login(self.request, user)
         return HttpResponseRedirect(reverse('blogs_list'))
 
-
+# profile view
 class ProfileView(UpdateView):
     model = User
     form_class = ProfileForm

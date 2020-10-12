@@ -18,6 +18,6 @@ $(document).ready(function(){
                 console.log(response)
             }
         });
-    }, 25000)
+    }, 30000)
 
 });
